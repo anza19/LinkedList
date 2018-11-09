@@ -77,6 +77,37 @@ void append(struct Node **head, int data){
 	//make the old last point to the end.
 	old_last->next = new_end;
 }
+
+//Delete a node given a key
+//3 step process
+//1. Find the PREVIOUS node of the node to be deleted
+//2. Change the next of previous to the next of the deleted Node
+//3. Free the deleted node
+
+//Complexit, O(N)
+void deleteNode(struct Node **head, int key){
+	struct Node *deleted = *head;
+
+	//this node will hold the node previous to the node that must be deleted
+	struct Node *prev_to_deleted;
+
+	while(deleted->data != key){
+
+		//holds the previous node
+		prev_to_deleted = deleted;
+
+		deleted = deleted->next;
+	}
+
+	//at this point we have reached the desired node
+
+	//have the previous node to point to the next of deleted node
+	prev_to_deleted->next = deleted->next;
+
+	//free the deleted node
+	free(deleted);
+}
+
 int main(int argc, char **argv){
 
 	struct Node* head = NULL;
@@ -101,6 +132,7 @@ int main(int argc, char **argv){
 
 	insertAfter(head->next, 5);
 	append(&head, 6);
+	deleteNode(&head, 3);
 	printList(head);
 
 	return(0);
